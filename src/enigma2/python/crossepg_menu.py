@@ -37,7 +37,6 @@ from Plugins.Plugin import PluginDescriptor
 from time import *
 
 import _enigma
-from boxbranding import getImageDistro
 
 class CrossEPG_Menu(Screen):
 	def __init__(self, session):
@@ -74,10 +73,9 @@ class CrossEPG_Menu(Screen):
 		l.append(self.buildListEntry(_("Update xepgdb providers"), "xepgdb.png"))
 		l.append(self.buildListEntry(_("Download now"), "download.png"))
 		l.append(self.buildListEntry(_("Defragment database"), "conversion.png"))
-		if getImageDistro() != "openvix":
-			l.append(self.buildListEntry(_("Force csv import now"), "csv.png"))
-			l.append(self.buildListEntry(_("Force epg.dat conversion now"), "conversion.png"))
-			l.append(self.buildListEntry(_("Force epg reload"), "reload.png"))
+		l.append(self.buildListEntry(_("Force csv import now"), "csv.png"))
+		l.append(self.buildListEntry(_("Force epg.dat conversion now"), "conversion.png"))
+		l.append(self.buildListEntry(_("Force epg reload"), "reload.png"))
 		l.append(self.buildListEntry(_("Info about database"), "dbinfo.png"))
 		l.append(self.buildListEntry(_("About"), "about.png"))
 
@@ -154,10 +152,8 @@ class CrossEPG_Menu(Screen):
 			self.downloader()
 			return
 		if index == 9:
-			self.session.open(CrossEPG_Defragmenter)
+		        self.session.open(CrossEPG_Defragmenter)
 			return
-		if getImageDistro() == "openvix":
-			index += 3
 		if index == 10:
 			self.importer()
 			return

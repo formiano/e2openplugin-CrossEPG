@@ -3,15 +3,8 @@ from crossepglib import CrossEPG_Config
 from crossepg_main import crossepg_main
 from crossepg_locale import _
 from Plugins.Plugin import PluginDescriptor
-from boxbranding import getImageDistro
 
 def setup(menuid, **kwargs):
-	if getImageDistro() in ("openvix", "miraclebox", "egami"):
-		if menuid == "epg":
-			return [("CrossEPG", crossepg_main.setup, "crossepg", None)]
-		else:
-			return []
-	else:
 		if menuid == "setup":
 			return [("CrossEPG", crossepg_main.setup, "crossepg", None)]
 		else:

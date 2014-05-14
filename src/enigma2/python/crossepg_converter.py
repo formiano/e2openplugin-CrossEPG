@@ -16,13 +16,6 @@ from crossepg_locale import _
 import os
 import sys
 
-from boxbranding import getImageDistro
-from Tools.Directories import resolveFilename, SCOPE_CURRENT_SKIN
-try:
-	from Tools.Directories import SCOPE_ACTIVE_SKIN
-except:
-	pass
-
 class CrossEPG_Converter(Screen):
 	def __init__(self, session, pcallback = None, noosd = False):
 		self.session = session
@@ -53,10 +46,7 @@ class CrossEPG_Converter(Screen):
 		self.config = CrossEPG_Config()
 		self.config.load()
 		self.lamedb = self.config.lamedb
-		if getImageDistro() != "openvix":
-			self.db_root = self.config.db_root
-		else:
-			self.db_root = config.misc.epgcachepath.value + 'crossepg'
+		self.db_root = self.config.db_root
 		if not pathExists(self.db_root):
 			if not createDir(self.db_root):
 				self.db_root = "/hdd/crossepg"
@@ -81,20 +71,9 @@ class CrossEPG_Converter(Screen):
 
 	def firstExec(self):
 		if self.isHD:
-			try:
-				png = resolveFilename(SCOPE_ACTIVE_SKIN, "crossepg/background_hd.png")
-			except:
-				png = resolveFilename(SCOPE_CURRENT_SKIN, "skin_default/crossepg/background_hd.png")
-			if png == None or not os.path.exists(png):
-				png = "%s/images/background_hd.png" % os.path.dirname(sys.modules[__name__].__file__)
+			self["background"].instance.setPixmapFromFile("%s/images/background_hd.png" % (os.path.dirname(sys.modules[__name__].__file__)))
 		else:
-			try:
-				png = resolveFilename(SCOPE_ACTIVE_SKIN, "crossepg/background.png")
-			except:
-				png = resolveFilename(SCOPE_CURRENT_SKIN, "skin_default/crossepg/background.png")
-			if png == None or not os.path.exists(png):
-				png = "%s/images/background.png" % os.path.dirname(sys.modules[__name__].__file__)
-		self["background"].instance.setPixmapFromFile(png)
+			self["background"].instance.setPixmapFromFile("%s/images/background.png" % (os.path.dirname(sys.modules[__name__].__file__)))
 		self.startWrapper()
 
 	def startWrapper(self):
